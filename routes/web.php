@@ -16,7 +16,4 @@ Route::get('/', function () {
 });
 
 Route::get('/home', 'TodoController@home');
-
-Route::get('/login', function () {
-   return "<h1>please login</h1>";
-});
+Route::get('/login', 'TodoController@login');
