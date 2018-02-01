@@ -14,4 +14,17 @@ class TodoController extends Controller
     {
         return view('login-logout.login');
     }
+
+    /**
+     * Show index of todos
+     */
+    public function index()
+    {
+        return view('todo.index');
+    }
+
+    public function create()
+    {
+        return view('todo.create');
+    }
 }
