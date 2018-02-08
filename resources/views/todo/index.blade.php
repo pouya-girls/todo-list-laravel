@@ -4,10 +4,10 @@
     <table class="table table-striped  table-hover">
         <thead>
         <tr>
-            <th class="col-sm-9">Name</th>
+            <th class="col-sm-8">Name</th>
             <th>
                 Action
-                <a href="{{ url('/todo/create') }}" class="btn btn-primary btn-sm pull-right">Create</a>
+                <a href="{{ route('todo.create') }}" class="btn btn-primary btn-sm pull-right">Create</a>
             </th>
         </tr>
         </thead>
@@ -16,9 +16,25 @@
             <tr>
                 <td>{{ $t->name }}</td>
                 <td class="text-right">
-                    <a href="#" class="btn btn-info btn-sm">Done</a>
-                    <a href="#" class="btn btn-success btn-sm">Edit</a>
-                    <a href="#" class="btn btn-danger btn-sm">Delete</a>
+                    @if ($t->is_done)
+                        <form method="post" action="{{ route('todo.undone', ['id' => $t->id]) }}" style="display: inline-block">
+                            {{ csrf_field() }}
+                            {{ method_field('PUT') }}
+                            <button class="btn btn-info btn-sm">Undone</button>
+                        </form>
+                    @else
+                        <form method="post" action="{{ route('todo.done', ['id' => $t->id]) }}" style="display: inline-block">
+                            {{ csrf_field() }}
+                            {{ method_field('PUT') }}
+                            <button class="btn btn-info btn-sm">Done</button>
+                        </form>
+                    @endif
+                    <a href="{{ route('todo.edit', ['id' => $t->id]) }}" class="btn btn-success btn-sm">Edit</a>
+                    <form method="post" action="{{ route('todo.destroy', ['id' => $t->id]) }}" style="display: inline-block">
+                        {{ csrf_field() }}
+                        {{ method_field('DELETE') }}
+                        <button class="btn btn-danger btn-sm">Delete</button>
+                    </form>
                 </td>
             </tr>
         @endforeach

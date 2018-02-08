@@ -23,12 +23,61 @@ class TodoController extends Controller
     {
         $ts = Todo::all();
 
-        //return $todos;
         return view('todo.index', ['todos' => $ts]);
     }
 
     public function create()
     {
         return view('todo.create');
+    }
+
+    public function store(Request $request)
+    {
+        $t = new Todo();
+        $t->name = $request->name;
+        $t->save();
+
+        return redirect(url('/todo'));
+    }
+
+    public function destroy($id)
+    {
+        Todo::query()->find($id)->delete();
+
+        return redirect(url('/todo'));
+    }
+
+    public function done($id)
+    {
+        $todo = Todo::query()->find($id);
+        $todo->is_done = 1;
+        $todo->save();
+
+        return redirect(url('/todo'));
+    }
+
+    public function undone($id)
+    {
+        $todo = Todo::query()->find($id);
+        $todo->is_done = 0;
+        $todo->save();
+
+        return redirect(url('/todo'));
+    }
+
+    public function edit($id)
+    {
+        $t = Todo::query()->find($id);
+
+        return view('todo.edit', ['todo' => $t]);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $todo = Todo::query()->find($id);
+        $todo->name = $request->name;
+        $todo->save();
+
+        return redirect(route('todo.index'));
     }
 }
