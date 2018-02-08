@@ -12,30 +12,16 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <td>Item 1</td>
-            <td class="text-right">
-                <a href="#" class="btn btn-info btn-sm">Done</a>
-                <a href="#" class="btn btn-success btn-sm">Edit</a>
-                <a href="#" class="btn btn-danger btn-sm">Delete</a>
-            </td>
-        </tr>
-        <tr>
-            <td>Item 1</td>
-            <td class="text-right">
-                <a href="#" class="btn btn-info btn-sm">Done</a>
-                <a href="#" class="btn btn-success btn-sm">Edit</a>
-                <a href="#" class="btn btn-danger btn-sm">Delete</a>
-            </td>
-        </tr>
-        <tr>
-            <td>Item 1</td>
-            <td class="text-right">
-                <a href="#" class="btn btn-info btn-sm">Done</a>
-                <a href="#" class="btn btn-success btn-sm">Edit</a>
-                <a href="#" class="btn btn-danger btn-sm">Delete</a>
-            </td>
-        </tr>
+        @foreach($todos as $t)
+            <tr>
+                <td>{{ $t->name }}</td>
+                <td class="text-right">
+                    <a href="#" class="btn btn-info btn-sm">Done</a>
+                    <a href="#" class="btn btn-success btn-sm">Edit</a>
+                    <a href="#" class="btn btn-danger btn-sm">Delete</a>
+                </td>
+            </tr>
+        @endforeach
         </tbody>
     </table>
 @endsection
