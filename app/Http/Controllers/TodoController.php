@@ -33,10 +33,11 @@ class TodoController extends Controller
 
     public function store(Request $request)
     {
-        $t = new Todo();
-        $t->name = $request->name;
-        $t->description = $request->description;
-        $t->save();
+//        $t = new Todo();
+//        $t->name = $request->name;
+//        $t->description = $request->description;
+//        $t->save();
+        Todo::query()->create($request->all()); // mass assignment.
 
         return redirect(route('todo.index'));
     }
@@ -75,10 +76,13 @@ class TodoController extends Controller
 
     public function update(Request $request, $id)
     {
-        $todo = Todo::query()->find($id);
-        $todo->name = $request->name;
-        $todo->description = $request->description;
-        $todo->save();
+//        $todo = Todo::query()->find($id);
+//        $todo->name = $request->name;
+//        $todo->description = $request->description;
+//        $todo->save();
+
+        Todo::query()->find($id)->update($request->all());
+
 
         return redirect(route('todo.index'));
     }
