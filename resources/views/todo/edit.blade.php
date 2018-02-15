@@ -11,6 +11,15 @@
             </div>
         </div>
         <div class="form-group">
+            <label class=" col-sm-2 control-label">Description :</label>
+            <div class="col-sm-10">
+                <textarea name="description"
+                          rows="6"
+                          placeholder="Description"
+                          class="form-control">{{ $todo->description }}</textarea>
+            </div>
+        </div>
+        <div class="form-group">
             <div class="col-sm-push-2 col-sm-10">
                 <button type="submit" class="btn btn-primary">Edit</button>
                 <a href="{{ url('/todo') }}" class="btn btn-danger">Cancel</a>

@@ -14,7 +14,11 @@
         <tbody>
         @foreach($todos as $t)
             <tr>
-                <td>{{ $t->name }}</td>
+                <td>
+                    <b>{{ $t->name }}</b>
+                    <br>
+                    {{ $t->description }}
+                </td>
                 <td class="text-right">
                     @if ($t->is_done)
                         <form method="post" action="{{ route('todo.undone', ['id' => $t->id]) }}" style="display: inline-block">

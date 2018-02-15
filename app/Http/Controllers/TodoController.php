@@ -35,9 +35,10 @@ class TodoController extends Controller
     {
         $t = new Todo();
         $t->name = $request->name;
+        $t->description = $request->description;
         $t->save();
 
-        return redirect(url('/todo'));
+        return redirect(route('todo.index'));
     }
 
     public function destroy($id)
@@ -76,6 +77,7 @@ class TodoController extends Controller
     {
         $todo = Todo::query()->find($id);
         $todo->name = $request->name;
+        $todo->description = $request->description;
         $todo->save();
 
         return redirect(route('todo.index'));
