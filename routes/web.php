@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect(url('/todo'));
 });
 
 Route::get('/home', 'TodoController@home');
@@ -25,7 +25,12 @@ Route::get('/login', 'TodoController@login');
 //Route::put('/todo/{id}', 'TodoController@update')->name('todo.update');
 //Route::delete('/todo/{id}', 'TodoController@destroy')->name('todo.destroy');
 
-Route::resource('todo', 'TodoController');
-Route::put('/todo/{id}/done', 'TodoController@done')->name('todo.done');
-Route::put('/todo/{id}/undone', 'TodoController@undone')->name('todo.undone');
+Route::group(['middleware' => 'auth'], function() {
+    Route::resource('todo', 'TodoController');
+    Route::put('/todo/{id}/done', 'TodoController@done')->name('todo.done');
+    Route::put('/todo/{id}/undone', 'TodoController@undone')->name('todo.undone');
+});
 
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

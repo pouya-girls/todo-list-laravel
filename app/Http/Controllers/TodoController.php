@@ -7,21 +7,12 @@ use Illuminate\Http\Request;
 
 class TodoController extends Controller
 {
-    public function home() {
-        return view('first-view');
-    }
-
-    public function login()
-    {
-        return view('login-logout.login');
-    }
-
     /**
      * Show index of todos
      */
     public function index()
     {
-        $ts = Todo::all();
+        $ts = auth()->user()->todos()->get();
 
         return view('todo.index', ['todos' => $ts]);
     }
@@ -36,15 +27,22 @@ class TodoController extends Controller
 //        $t = new Todo();
 //        $t->name = $request->name;
 //        $t->description = $request->description;
+//        $t->user_id = auth()->user()->id;
 //        $t->save();
-        Todo::query()->create($request->all()); // mass assignment.
+//        Todo::query()->create($request->all()); // mass assignment.
+        $todo = new Todo($request->all());
+        auth()->user()->todos()->save($todo);
 
         return redirect(route('todo.index'));
     }
 
     public function destroy($id)
     {
-        Todo::query()->find($id)->delete();
+        $todo = Todo::query()->find($id);
+
+        $this->authorize('delete', $todo);
+
+        $todo->delete();
 
         return redirect(url('/todo'));
     }
@@ -52,6 +50,9 @@ class TodoController extends Controller
     public function done($id)
     {
         $todo = Todo::query()->find($id);
+
+        $this->authorize('done', $todo);
+
         $todo->is_done = 1;
         $todo->save();
 
@@ -61,6 +62,9 @@ class TodoController extends Controller
     public function undone($id)
     {
         $todo = Todo::query()->find($id);
+
+        $this->authorize('undone', $todo);
+
         $todo->is_done = 0;
         $todo->save();
 
@@ -70,6 +74,8 @@ class TodoController extends Controller
     public function edit($id)
     {
         $t = Todo::query()->find($id);
+
+        $this->authorize('update', $t);
 
         return view('todo.edit', ['todo' => $t]);
     }
@@ -81,7 +87,9 @@ class TodoController extends Controller
 //        $todo->description = $request->description;
 //        $todo->save();
 
-        Todo::query()->find($id)->update($request->all());
+        $todo = Todo::query()->find($id);
+        $this->authorize('update', $todo);
+        $todo->update($request->all());
 
 
         return redirect(route('todo.index'));
